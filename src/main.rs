@@ -4,6 +4,7 @@ use serenity::async_trait;
 use serenity::model::channel::Message;
 use serenity::model::gateway::Ready;
 use serenity::prelude::*;
+iuse libretranslate::{translate, Language};
 
 struct Handler;
 
@@ -37,4 +38,13 @@ async fn main() {
     if let Err(why) = client.start().await {
         println!("Client error: {:?}", why);
     }
+
+    // let source = Language::French;
+    let target = Language::English;
+    let input = "Le texte français.";
+
+    let data = translate(source, target, input, None).await.unwrap();
+
+    println!("Input {}: {}", data.source.as_pretty(), data.input);
+    println!("Output {}: {}", data.target.as_pretty(), data.output);
 }
